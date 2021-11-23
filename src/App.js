@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime'
 import React, {useState} from 'react'
 import {Stack} from '@fluentui/react/lib/Stack';
-import {login} from './utils'
+import {login, logout} from './utils'
 import Big from 'big.js'
 import Text, {
   ActionButton,
@@ -162,7 +162,7 @@ export default function App() {
     alert('Clicked');
   }
 
-  function onResetState() {
+  const onResetState = () => {
     setTitle("")
     setDescription("")
     selectedImage()
@@ -254,7 +254,7 @@ export default function App() {
     // use React Fragment, <>, to avoid wrapping elements in unnecessary divs
     <Stack styles={stackStyles} tokens={itemAlignmentsStackTokens}>
       <Stack.Item align="end">
-        <ActionButton iconProps={addFriendIcon} allowDisabledFocus disabled={false} checked={false}>
+        <ActionButton iconProps={addFriendIcon} onClick={logout} allowDisabledFocus disabled={false} checked={false}>
           Log out
         </ActionButton>
       </Stack.Item>
@@ -264,7 +264,7 @@ export default function App() {
         </form>
       </Stack.Item>
       <Stack.Item align={"center"}>
-        {selectedImage && <DocumentCard
+        {selectedImage && mintingState !==2 && <DocumentCard
           aria-label={
             'Document Card with image. How to make a good design. '
           }
@@ -282,7 +282,7 @@ export default function App() {
           {/*<DocumentCardActivity activity="Modified March 13, 2018" people={people.slice(0, 3)} />*/}
         </DocumentCard>}
       </Stack.Item>
-      {selectedImage && <Stack.Item align="center">
+      {selectedImage && mintingState !==2 && <Stack.Item align="center">
         <TextField // prettier-ignore
           label="Set NFT ID"
           prefix="ID"
@@ -292,7 +292,7 @@ export default function App() {
           onChange={(msg) => handleIdChange(msg)}
         />
       </Stack.Item>}
-      {selectedImage && <Stack.Item align="center">
+      {selectedImage && mintingState !==2 && <Stack.Item align="center">
         <TextField // prettier-ignore
           label="Set NFT Title"
           prefix="Title"
@@ -302,7 +302,7 @@ export default function App() {
           onChange={(msg) => handleTitleChange(msg)}
         />
       </Stack.Item>}
-      {selectedImage && <Stack.Item align="center">
+      {selectedImage && mintingState !==2 && <Stack.Item align="center">
         <TextField // prettier-ignore
           label="Set NFT Description"
           prefix="Description"
@@ -325,7 +325,7 @@ export default function App() {
       {mintingState === 2 && <Stack.Item align="center">
         Check new NFT in your <Link href="https://wallet.near.org/?tab=collectibles">Near Wallet Collectibles</Link>
       </Stack.Item>}
-      {mintingState === 3 && <Stack.Item align="center">
+      {mintingState === 2 && <Stack.Item align="center">
         <PrimaryButton onClick={onResetState}
                        allowDisabledFocus disabled={false}
                        checked={false}>
